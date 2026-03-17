@@ -1239,13 +1239,16 @@ body::after {
 /* === MOBILE HERO CENTER FIX === */
 @media (max-width: 768px) {
   .hero {
+    min-height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100svh;
   }
   .hero-inner {
-    text-align: center;
-    padding-bottom: 0;
+    padding: 0 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
