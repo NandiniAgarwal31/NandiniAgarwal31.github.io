@@ -1235,3 +1235,17 @@ body::after {
     transparent 70%
   );
 }
+
+/* === MOBILE HERO CENTER FIX === */
+@media (max-width: 768px) {
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+  }
+  .hero-inner {
+    text-align: center;
+    padding-bottom: 0;
+  }
+}
