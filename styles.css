@@ -1369,3 +1369,8 @@ body::after {
   flex-wrap: wrap;
   gap: 8px;
 }
+/* === EDUCATION SECTION SPACING === */
+#education {
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
