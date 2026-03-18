@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // Experience cards: mouse-follow spotlight (per card)
   // =========================
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  
   if (!reduceMotion) {
     document.querySelectorAll(".experience-card").forEach((card) => {
       const spotlight = card.querySelector(".experience-card-spotlight");
