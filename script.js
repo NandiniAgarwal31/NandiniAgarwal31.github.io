@@ -27,6 +27,8 @@
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   // Year in footer
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -69,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Contact scroll: makes sure footer can be fully seen
+  // Contact scroll
   const contactLink = document.querySelector('.nav a[href="#contact"]');
   if (contactLink instanceof HTMLAnchorElement) {
     contactLink.addEventListener("click", (e) => {
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // Experience cards: mouse-follow spotlight (per card)
   // =========================
-  
   if (!reduceMotion) {
     document.querySelectorAll(".experience-card").forEach((card) => {
       const spotlight = card.querySelector(".experience-card-spotlight");
@@ -122,11 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // Active nav link detection (dynamic based on scroll position)
+  // Active nav link detection
   // =========================
   const navLinks = document.querySelectorAll(".nav a[href^='#']");
   const sections = document.querySelectorAll("section[id]");
-  
+
   if (navLinks.length > 0 && sections.length > 0) {
     const updateActiveNav = () => {
       const scrollY = window.scrollY;
@@ -135,22 +136,19 @@ document.addEventListener("DOMContentLoaded", () => {
           .getPropertyValue("--header-h")
           .trim()
       ) || 58;
-      const offset = headerH + 80; // Offset to trigger active state
+      const offset = headerH + 80;
 
-      let currentSection = "home"; // Default to home
-      
-      // Check sections from bottom to top to find the one currently in view
+      let currentSection = "home";
+
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
         const sectionTop = section.offsetTop;
-        
         if (scrollY + offset >= sectionTop) {
           currentSection = section.id;
           break;
         }
       }
 
-      // Update active state on nav links
       navLinks.forEach((link) => {
         const href = link.getAttribute("href");
         if (href === `#${currentSection}`) {
@@ -160,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Blur only sections that are in the past (above the viewport)
       const viewportTop = scrollY + (headerH || 0);
       sections.forEach((sec) => {
         const rect = sec.getBoundingClientRect();
@@ -173,10 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-    // Initial check
     updateActiveNav();
 
-    // Update on scroll (throttled for performance)
     let ticking = false;
     window.addEventListener(
       "scroll",
@@ -192,21 +187,18 @@ document.addEventListener("DOMContentLoaded", () => {
       { passive: true }
     );
 
-    // Also update when clicking nav links (for immediate feedback)
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        // Small delay to let scroll happen first
         setTimeout(updateActiveNav, 100);
       });
     });
   }
 
   // =========================
-  // Scroll reveal (Wix-style "comes in on scroll")
+  // Scroll reveal
   // =========================
   const revealEls = document.querySelectorAll(".reveal");
 
-  // Apply transition delays from data-delay="..."
   revealEls.forEach((el) => {
     const d = el.getAttribute("data-delay");
     if (d) el.style.transitionDelay = `${Number(d)}ms`;
@@ -232,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (reduceMotion) return;
 
   // =========================
-  // Skills tilt (keeps your current look)
+  // Skills tilt
   // =========================
   const skillCards = document.querySelectorAll("[data-tilt]");
   skillCards.forEach((card) => {
@@ -250,7 +242,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const px = x / rect.width;
       const py = y / rect.height;
 
-      // spotlight vars for your ::before
       card.style.setProperty("--mx", `${px * 100}%`);
       card.style.setProperty("--my", `${py * 100}%`);
 
@@ -297,36 +288,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================
-  // Generic cursor spotlight: every .has-spotlight element (hero, about, contact, leadership, etc.)
+  // Generic cursor spotlight
   // =========================
-  if (!reduceMotion) {
-    document.querySelectorAll(".has-spotlight").forEach((el) => {
-      const spotlight = el.querySelector(".spotlight");
-      if (!spotlight) return;
+  document.querySelectorAll(".has-spotlight").forEach((el) => {
+    const spotlight = el.querySelector(".spotlight");
+    if (!spotlight) return;
 
-      const updateSpotlight = (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        el.style.setProperty("--mx", `${x}%`);
-        el.style.setProperty("--my", `${y}%`);
-      };
+    const updateSpotlight = (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty("--mx", `${x}%`);
+      el.style.setProperty("--my", `${y}%`);
+    };
 
-      el.addEventListener("pointermove", updateSpotlight, { passive: true });
-      el.addEventListener("pointerleave", () => {
-        el.style.removeProperty("--mx");
-        el.style.removeProperty("--my");
-      });
+    el.addEventListener("pointermove", updateSpotlight, { passive: true });
+    el.addEventListener("pointerleave", () => {
+      el.style.removeProperty("--mx");
+      el.style.removeProperty("--my");
     });
-  }
-});
-
-// === EDUCATION ACCORDION ===
-document.querySelectorAll(".edu-trigger").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const card = btn.closest(".edu-card");
-    const isOpen = card.classList.contains("open");
-    document.querySelectorAll(".edu-card").forEach((c) => c.classList.remove("open"));
-    if (!isOpen) card.classList.add("open");
   });
+
+  // =========================
+  // Education accordion
+  // =========================
+  document.querySelectorAll(".edu-trigger").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".edu-card");
+      const isOpen = card.classList.contains("open");
+      document.querySelectorAll(".edu-card").forEach((c) => c.classList.remove("open"));
+      if (!isOpen) card.classList.add("open");
+    });
+  });
+
 });
