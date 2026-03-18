@@ -204,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // Scroll reveal (Wix-style "comes in on scroll")
   // =========================
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealEls = document.querySelectorAll(".reveal");
 
   // Apply transition delays from data-delay="..."
