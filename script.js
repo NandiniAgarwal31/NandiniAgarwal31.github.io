@@ -325,8 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // === EDUCATION ACCORDION ===
 document.querySelectorAll(".edu-trigger").forEach((btn) => {
   btn.addEventListener("click", () => {
-    const isOpen = btn.getAttribute("aria-expanded") === "true";
-    document.querySelectorAll(".edu-trigger").forEach((b) => b.setAttribute("aria-expanded", "false"));
-    btn.setAttribute("aria-expanded", String(!isOpen));
+    const card = btn.closest(".edu-card");
+    const isOpen = card.classList.contains("open");
+    document.querySelectorAll(".edu-card").forEach((c) => c.classList.remove("open"));
+    if (!isOpen) card.classList.add("open");
   });
 });
