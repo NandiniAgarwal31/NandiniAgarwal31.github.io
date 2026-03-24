@@ -309,16 +309,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // =========================
-  // Education accordion
-  // =========================
-  document.querySelectorAll(".edu-trigger").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const card = btn.closest(".edu-card");
-      const isOpen = card.classList.contains("open");
-      document.querySelectorAll(".edu-card").forEach((c) => c.classList.remove("open"));
-      if (!isOpen) card.classList.add("open");
-    });
-  });
-
 });
